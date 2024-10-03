@@ -5,7 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<UncafezinDAL.AppDbContext>(options => options.UseSqlServer("ConnectionStringLocal"));
+//builder.Services.AddDbContext<UncafezinDAL.AppDbContext>(options => options.UseSqlServer("ConnectionStringLocal"));
+builder.Services.AddDbContext<UncafezinDAL.AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStringLocal")));
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
