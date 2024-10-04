@@ -191,8 +191,8 @@ public class ProductController : Controller
         {
             list.Add(new SelectListItem()
             {
-                Value = String.Empty,
-                Text = String.Empty,
+                Value = item.Code.ToString(),
+                Text = item.Description.ToString(),
             });
         }
 

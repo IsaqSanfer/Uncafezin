@@ -6,6 +6,7 @@ namespace UncafezinWeb.Models;
 public class ProductViewModel
 {
     public int Code { get; set; }
+
     //[Required(ErrorMessage = "Informe o Nome do Produto")]
     //public string Name { get; set; }
 
