@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using UncafezinDAL;
 using UncafezinEntities;
+using UncafezinWeb.Models;
 
 namespace UncafezinWeb.Controllers;
 
@@ -28,19 +29,19 @@ public class ClientController : Controller
     // GET: Client/Details/5
     public async Task<IActionResult> Details(int? id)
     {
-        if (id == null)
+        ClientViewModel model = new ClientViewModel();
+
+        if (id != null)
         {
-            return NotFound();
+            var client = await _context.Client.FirstOrDefaultAsync(m => m.Code == id);
+            model.Code = client.Code;
+            model.Name = client.Name;
+            model.CNPJ_CPF = client.CNPJ_CPF;
+            model.Email = client.Email;
+            model.Cellphone = client.Cellphone;
         }
 
-        var client = await _context.Client
-            .FirstOrDefaultAsync(m => m.Code == id);
-        if (client == null)
-        {
-            return NotFound();
-        }
-
-        return View(client);
+        return View(model);
     }
 
     // GET: Client/Create
@@ -54,15 +55,36 @@ public class ClientController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Code,Name,CNPJ_CPF,Email,Cellphone")] Client client)
+    public async Task<IActionResult> Create(ClientViewModel model)
     {
         if (ModelState.IsValid)
         {
-            _context.Add(client);
+            Client oClient = new Client()
+            {
+                Code = model.Code,
+                Name = model.Name,
+                CNPJ_CPF = model.CNPJ_CPF,
+                Email = model.Email,
+                Cellphone = model.Cellphone,
+            };
+
+            if (model.Code == 0)
+            {
+                await _context.Client.AddAsync(oClient);
+            }
+            else
+            {
+                _context.Entry(oClient).State = EntityState.Modified;
+            }
+
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
-        return View(client);
+        else
+        {
+            return View(model);
+        }
+        
+        return RedirectToAction(nameof(Index));
     }
 
     // GET: Client/Edit/5
@@ -117,21 +139,14 @@ public class ClientController : Controller
     }
 
     // GET: Client/Delete/5
-    public async Task<IActionResult> Delete(int? id)
+    public IActionResult Delete(int id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        var client = new Client() { Code = id };
+        _context.Attach(client);
+        _context.Remove(client);
+        _context.SaveChanges();
 
-        var client = await _context.Client
-            .FirstOrDefaultAsync(m => m.Code == id);
-        if (client == null)
-        {
-            return NotFound();
-        }
-
-        return View(client);
+        return RedirectToAction(nameof(Index));
     }
 
     // POST: Client/Delete/5

@@ -137,7 +137,7 @@ public class CategoryController : Controller
     }
 
     // GET: Category/Delete/5
-    public async Task<IActionResult> Delete(int id)
+    public IActionResult Delete(int id)
     {
         //var category = await _context.Category.FirstOrDefaultAsync(x => x.Code == id);
         var category = new Category() { Code = id }; 
