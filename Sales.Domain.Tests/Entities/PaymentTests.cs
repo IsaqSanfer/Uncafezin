@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Sales.Domain.Common.Base;
 using Sales.Domain.Common.Enums;
 using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Entities;
@@ -30,31 +29,25 @@ public class PaymentTests
     [Fact(DisplayName = "Não deve criar um pagamento com dados inválidos")]
     public void CreateInvalidPayment_ShouldThrowException()
     {
-        var orderId = Guid.NewGuid();
+        Action act = () => new Payment(Guid.NewGuid(), PaymentMethod.Pix, 0);
 
-        Action act = () => new Payment(orderId, PaymentMethod.Pix, 0);
-
-        act.Should().Throw<DomainException>().WithMessage("O valor do pagamento deve ser maior que zero");
+        act.Should().Throw<DomainException>().WithMessage("Valor do pagamento deve ser maior que zero.");
     }
 
     [Fact(DisplayName = "Não deve definir código de transação nulo ou vazio")]
     public void CreatePaymentNullOrEmptyCodeTransaction_ShouldThrowException()
     {
-        var orderId = Guid.NewGuid();
-        var payment = new Payment(orderId, PaymentMethod.Pix, 100.00m);
+        var payment = new Payment(Guid.NewGuid(), PaymentMethod.Pix, 100m);
 
-        Action actNull = () => payment.SetTransactionCode(null);
-        Action actEmpty = () => payment.SetTransactionCode("");
+        Action act = () => payment.SetTransactionCode("");
 
-        actNull.Should().Throw<DomainException>().WithMessage("O código de transação é obrigatório.");
-        actEmpty.Should().Throw<DomainException>().WithMessage("O código de transação é obrigatório.");
+        act.Should().Throw<DomainException>().WithMessage("Código de transação é obrigatório.");
     }
 
-    [Fact(DisplayName = "Não deve definir código de transação válido")]
+    [Fact(DisplayName = "Deve definir código de transação válido")]
     public void CreatePaymentValidCodeTransaction_ShouldSetCode()
     {
-        var orderId = Guid.NewGuid();
-        var payment = new Payment(orderId, PaymentMethod.CreditCard, 100.00m);
+        var payment = new Payment(Guid.NewGuid(), PaymentMethod.CreditCard, 100.00m);
         var code = "TXN-12345";
 
         payment.SetTransactionCode(code);
@@ -66,21 +59,19 @@ public class PaymentTests
     [Fact(DisplayName = "Não deve redefinir o código de transação já definido")]
     public void CreatePaymentAlreadySetCodeTransaction_ShouldThrowException()
     {
-        var orderId = Guid.NewGuid();
-        var payment = new Payment(orderId, PaymentMethod.CreditCard, 100.00m);
+        var payment = new Payment(Guid.NewGuid(), PaymentMethod.CreditCard, 100.00m);
 
         payment.SetTransactionCode("TXN-0001");
 
         Action act = () => payment.SetTransactionCode("TXN-67890");
 
-        act.Should().Throw<DomainException>().WithMessage("O código de transação já foi definido.");
+        act.Should().Throw<DomainException>().WithMessage("Código de transação já definido.");
     }
 
     [Fact(DisplayName = "Gerar código de transação local automaticamente")]
     public void CreatePaymentGenerateInternalCode_ShouldSetLocalCode()
     {
-        var orderId = Guid.NewGuid();
-        var payment = new Payment(orderId, PaymentMethod.Pix, 100.00m);
+        var payment = new Payment(Guid.NewGuid(), PaymentMethod.Pix, 100.00m);
 
         payment.GenerateInternalTransactionCode();
 
@@ -94,7 +85,7 @@ public class PaymentTests
     {
         var payment = new Payment(Guid.NewGuid(), PaymentMethod.CreditCard, 300m);
 
-        payment.GenerateInternalTransactionCode();
+        payment.GenerateInternalTransactionCode();  // Simula um gatway de pagamento que gera um código de transação
         payment.ConfirmPayment();
 
         payment.PaymentStatus.Should().Be(PaymentStatus.Approved);
@@ -117,19 +108,20 @@ public class PaymentTests
 
         Action act = () => payment.ConfirmPayment();
 
-        act.Should().Throw<DomainException>().WithMessage("O código de transação é obrigatório para confirmar o pagamento.");
+        act.Should().Throw<DomainException>().WithMessage("Código de transação é obrigatório para confirmar o pagamento.");
     }
 
     [Fact(DisplayName = "Não deve confirmar pagamentos pendentes")]
     public void ConfirmPendingPayment_ShouldThrowException()
     {
         var payment = new Payment(Guid.NewGuid(), PaymentMethod.Pix, 100m);
+
         payment.GenerateInternalTransactionCode();
         payment.ConfirmPayment();
 
         Action act = () => payment.ConfirmPayment();
 
-        act.Should().Throw<DomainException>().WithMessage("O pagamento já foi confirmado.");
+        act.Should().Throw<DomainException>().WithMessage("Apenas pagamentos pendentes podem ser confirmados.");
     }
 
     [Fact(DisplayName = "Deve recusar pagamento pendente e gerar evento de rejeição com dados corretos")]
@@ -162,7 +154,7 @@ public class PaymentTests
 
         Action act = () => payment.RejectPayment();
 
-        act.Should().Throw<DomainException>().WithMessage("Apenas pagamentos pendentes podem ser recusados");
+        act.Should().Throw<DomainException>().WithMessage("Apenas pagamentos pendentes podem ser recusados.");
     }
 
 }

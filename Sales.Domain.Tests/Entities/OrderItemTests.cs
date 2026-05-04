@@ -66,8 +66,8 @@ public class OrderItemTests
     }
 
     [Xunit.Theory(DisplayName = "Não deve aplicar desconto inválido")]
-    [InlineData(-10, "Desconto não pode ser negativo.")]
-    [InlineData(5000, "Desconto não pode ser maior que o preço total.")]
+    [InlineData(-10, "O desconto não pode ser negativo.")]
+    [InlineData(5000, "O desconto não pode exceder o valor total do item.")]
     public void ApplyDiscount_ShouldThrowDomainException_WhenDiscountIsInvalid(decimal discount, string message)
     {
         // Arrange
@@ -112,7 +112,7 @@ public class OrderItemTests
         // Arrange
         var item = CreateValidOrderItem(price: 100m, qty: 5);
         // Act
-        Action act = () => item.RemoveQuantity(2);
+        Action act = () => item.RemoveQuantity(0);
         // Assert
         act.Should().Throw<DomainException>().WithMessage("A quantidade deve ser maior que zero.");
     }

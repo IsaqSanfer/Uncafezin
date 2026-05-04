@@ -34,20 +34,20 @@ public sealed class Payment : Entity
     // Mock para geração do código de transação (poderia ser obtido através de um gateway externo)
     public void GenerateInternalTransactionCode()
     {
-        if (CodeTransaction != null)
+        if (CodeTransaction is not null)
             return;     //throw new DomainException("Código de transação já gerado.");
 
-        var code = $"LOCAL-{Guid.NewGuid().ToString().Substring(0, 8).ToUpper()}";
+        var code = $"LOCAL-{Guid.NewGuid().ToString()[..8].ToUpper()}";
         SetTransactionCode(code);
     }
 
     public void SetTransactionCode(string code)
     {
         Guard.AgainstNullOrWhiteSpace(code, nameof(code), "Código de transação é obrigatório.");
-        Guard.Against<DomainException>(CodeTransaction != null, "Código de transação já definido.");
+        Guard.Against<DomainException>(CodeTransaction is not null, "Código de transação já definido.");
         Guard.Against<DomainException>(PaymentStatus != PaymentStatus.Pending, "Não é possível definir o código de transação para um pagamento que não está pendente.");
 
-        // Gerado apenas uma vez, quando o pagamento é processado
+        // Gerado apenas uma vez, quando o pagamento é aprovado
         CodeTransaction = code;
         SetUpdateDate();
     }
@@ -69,7 +69,7 @@ public sealed class Payment : Entity
     {
         Guard.Against<DomainException>(PaymentStatus != PaymentStatus.Pending, "Apenas pagamentos pendentes podem ser recusados.");
 
-        PaymentStatus = PaymentStatus.Refunded;
+        PaymentStatus = PaymentStatus.Refused;
         PaymentDate = DateTime.UtcNow;
         SetUpdateDate();
 
