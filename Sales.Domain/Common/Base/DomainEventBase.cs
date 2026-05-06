@@ -1,4 +1,6 @@
-﻿namespace Sales.Domain.Orders.Events;
+﻿using Sales.Domain.Common.Interfaces;
+
+namespace Sales.Domain.Common.Base;
 
 public abstract record class DomainEventBase : IDomainEvent
 {

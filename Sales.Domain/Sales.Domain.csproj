@@ -10,7 +10,6 @@
     <Folder Include="Catalog\Entities\" />
     <Folder Include="Catalog\Events\" />
     <Folder Include="Catalog\ValueObjects\" />
-    <Folder Include="Common\Interfaces\" />
     <Folder Include="Customers\Events\" />
     <Folder Include="Customers\ValueObjects\" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Sales.Domain.Common.Enums;
+﻿using Sales.Domain.Common.Base;
+using Sales.Domain.Common.Enums;
 using Sales.Domain.Orders.ValueObjects;
 
 namespace Sales.Domain.Orders.Events;
