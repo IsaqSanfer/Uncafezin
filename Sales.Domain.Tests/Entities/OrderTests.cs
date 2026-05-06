@@ -7,35 +7,9 @@ using Xunit;
 
 public class OrderTests
 {
-    [Fact(DisplayName = "")]
-    public void Items_ShouldReturnEmpty_WhenNoItemsAdded()
-    {
-        // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
-        var order = Order.Create(Guid.NewGuid(), address);
+    // Criação do Pedido
 
-        // Act
-        var items = order.Items;
-
-        // Assert
-        items.Should().BeEmpty();
-    }
-
-    [Fact(DisplayName = "")]
-    public void Payments_ShouldReturnEmpty_WhenNoPaymentsAdded()
-    {
-        // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
-        var order = Order.Create(Guid.NewGuid(), address);
-
-        // Act
-        var payments = order.Payments;
-
-        // Assert
-        payments.Should().BeEmpty();
-    }
-
-    [Fact(DisplayName = "")]
+    [Fact(DisplayName = "Deve criar um pedido com as propriedades corretas")]
     public void Create_ShouldReturnOrderWithCorrectProperties()
     {
         // Arrange
@@ -53,7 +27,23 @@ public class OrderTests
         order.Payments.Should().BeEmpty();
     }
 
-    [Fact(DisplayName = "")]
+    // Itens do Pedido
+
+    [Fact(DisplayName = "Deve retornar lista vazia quando nenhum item for adicionado")]
+    public void Items_ShouldReturnEmpty_WhenNoItemsAdded()
+    {
+        // Arrange
+        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var order = Order.Create(Guid.NewGuid(), address);
+
+        // Act
+        var items = order.Items;
+
+        // Assert
+        items.Should().BeEmpty();
+    }
+
+    [Fact(DisplayName = "Deve adicionar um novo item ao pedido")]
     public void AddItem_ShouldAddNewItemToOrder()
     {
         // Arrange
@@ -76,56 +66,7 @@ public class OrderTests
         item.Quantity.Should().Be(quantity);
     }
 
-    [Fact(DisplayName = "")]
-    public void UpdateShippingAddress_ShouldUpdate_WhenOrderIsPendingAndAddressIsValid()
-    {
-        // Arrange
-        var address1 = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
-        var address2 = ShippingAddress.Create("54321-000", "Rua B", "Casa", "Bairro", "RJ", "Rio de Janeiro", "Brasil");
-        var order = Order.Create(Guid.NewGuid(), address1);
-
-        // Act
-        order.UpdateShippingAddress(address2);
-
-        // Assert
-        order.ShippingAddress.Should().Be(address2);
-    }
-
-    [Fact(DisplayName = "")]
-    public void UpdateShippingAddress_ShouldThrow_WhenAddressIsNull()
-    {
-        // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
-        var order = Order.Create(Guid.NewGuid(), address);
-
-        // Act
-        var act = () => order.UpdateShippingAddress(null!);
-
-        // Assert
-        act.Should().Throw<DomainException>()
-            .WithMessage("O endereço de entrega é obrigatório.");
-    }
-
-    [Fact(DisplayName = "")]
-    public void UpdateShippingAddress_ShouldThrow_WhenOrderIsNotPending()
-    {
-        // Arrange
-        var address1 = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
-        var address2 = ShippingAddress.Create("54321-000", "Rua B", "Casa", "Bairro", "RJ", "Rio de Janeiro", "Brasil");
-        var order = Order.Create(Guid.NewGuid(), address1);
-        // Simula mudança de status (reflexão, pois não há setter público)
-        var statusProp = typeof(Order).GetProperty("OrderStatus");
-        statusProp!.SetValue(order, OrderStatus.Confirmed);
-
-        // Act
-        var act = () => order.UpdateShippingAddress(address2);
-
-        // Assert
-        act.Should().Throw<DomainException>()
-            .WithMessage("O endereço de entrega só pode ser alterado enquanto o pedido está pendente.");
-    }
-
-    [Fact(DisplayName = "")]
+    [Fact(DisplayName = "Deve somar a quantidade quando o produto já existir no pedido")]
     public void AddItem_ShouldIncreaseQuantity_WhenProductAlreadyExists()
     {
         // Arrange
@@ -146,24 +87,7 @@ public class OrderTests
         item.Quantity.Should().Be(5);
     }
 
-    [Fact(DisplayName = "")]
-    public void RemoveItem_ShouldThrowDomainException_WhenRemovingLastItem()
-    {
-        // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
-        var order = Order.Create(Guid.NewGuid(), address);
-        var productId = Guid.NewGuid();
-        order.AddItem(productId, "Produto Teste", 10.5m, 2);
-
-        // Act
-        var act = () => order.RemoveItem(productId);
-
-        // Assert
-        act.Should().Throw<DomainException>()
-            .WithMessage("O pedido deve conter pelo menos um item.");
-    }
-
-    [Fact(DisplayName = "")]
+    [Fact(DisplayName = "Deve remover o item correto quando houver múltiplos itens")]
     public void RemoveItem_ShouldRemoveCorrectItem_WhenMultipleItemsExist()
     {
         // Arrange
@@ -182,7 +106,93 @@ public class OrderTests
         order.Items.First().ProductId.Should().Be(productId2);
     }
 
-    [Fact(DisplayName = "")]
+    [Fact(DisplayName = "Deve lançar DomainException ao tentar remover o último item do pedido")]
+    public void RemoveItem_ShouldThrowDomainException_WhenRemovingLastItem()
+    {
+        // Arrange
+        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var order = Order.Create(Guid.NewGuid(), address);
+        var productId = Guid.NewGuid();
+        order.AddItem(productId, "Produto Teste", 10.5m, 2);
+
+        // Act
+        var act = () => order.RemoveItem(productId);
+
+        // Assert
+        act.Should().Throw<DomainException>()
+            .WithMessage("O pedido deve conter pelo menos um item.");
+    }
+
+    // Endereço de Entrega
+
+    [Fact(DisplayName = "Deve atualizar endereço quando o pedido estiver Pendente e o endereço for válido")]
+    public void UpdateShippingAddress_ShouldUpdate_WhenOrderIsPendingAndAddressIsValid()
+    {
+        // Arrange
+        var address1 = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address2 = ShippingAddress.Create("54321-000", "Rua B", "Casa", "Bairro", "RJ", "Rio de Janeiro", "Brasil");
+        var order = Order.Create(Guid.NewGuid(), address1);
+
+        // Act
+        order.UpdateShippingAddress(address2);
+
+        // Assert
+        order.ShippingAddress.Should().Be(address2);
+    }
+
+    [Fact(DisplayName = "Deve lançar erro ao tentar atualizar com endereço nulo")]
+    public void UpdateShippingAddress_ShouldThrow_WhenAddressIsNull()
+    {
+        // Arrange
+        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var order = Order.Create(Guid.NewGuid(), address);
+
+        // Act
+        var act = () => order.UpdateShippingAddress(null!);
+
+        // Assert
+        act.Should().Throw<DomainException>()
+            .WithMessage("O endereço de entrega é obrigatório.");
+    }
+
+    [Fact(DisplayName = "Deve lançar erro ao tentar atualizar endereço se o pedido não estiver Pendente")]
+    public void UpdateShippingAddress_ShouldThrow_WhenOrderIsNotPending()
+    {
+        // Arrange
+        var address1 = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address2 = ShippingAddress.Create("54321-000", "Rua B", "Casa", "Bairro", "RJ", "Rio de Janeiro", "Brasil");
+        var order = Order.Create(Guid.NewGuid(), address1);
+        // Simula mudança de status (reflexão, pois não há setter público)
+        var statusProp = typeof(Order).GetProperty("OrderStatus");
+        statusProp!.SetValue(order, OrderStatus.Confirmed);
+
+        // Act
+        var act = () => order.UpdateShippingAddress(address2);
+
+        // Assert
+        act.Should().Throw<DomainException>()
+            .WithMessage("O endereço de entrega só pode ser alterado enquanto o pedido está pendente.");
+    }
+
+    // Pagamentos
+
+    [Fact(DisplayName = "Deve retornar lista vazia quando nenhum pagamento for adicionado")]
+    public void Payments_ShouldReturnEmpty_WhenNoPaymentsAdded()
+    {
+        // Arrange
+        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var order = Order.Create(Guid.NewGuid(), address);
+
+        // Act
+        var payments = order.Payments;
+
+        // Assert
+        payments.Should().BeEmpty();
+    }
+
+    // Transição de Status
+
+    [Fact(DisplayName = "Deve alterar status para Enviado e disparar evento quando pedido estiver Em Processamento")]
     public void MarkAsShipped_ShouldSetStatusAndRaiseEvent_WhenOrderIsProcessing()
     {
         // Arrange
@@ -190,7 +200,7 @@ public class OrderTests
         var order = Order.Create(Guid.NewGuid(), address);
         var statusProp = typeof(Order).GetProperty("OrderStatus");
         statusProp!.SetValue(order, OrderStatus.Processing);
-        
+
         // Act
         order.MarkAsShipped();
 
@@ -203,4 +213,6 @@ public class OrderTests
         events.Should().Contain(e => e.GetType().Name == "OrderShippedEvent");
     }
 
+    // Cancelamento
+    // ...
 }
