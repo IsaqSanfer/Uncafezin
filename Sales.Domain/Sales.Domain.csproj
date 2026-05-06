@@ -10,6 +10,7 @@
     <Folder Include="Catalog\Entities\" />
     <Folder Include="Catalog\Events\" />
     <Folder Include="Catalog\ValueObjects\" />
+    <Folder Include="Common\Enums\" />
     <Folder Include="Customers\Events\" />
   </ItemGroup>
 

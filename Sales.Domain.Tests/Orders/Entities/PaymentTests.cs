@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using Sales.Domain.Common.Enums;
 using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Orders.Entities;
+using Sales.Domain.Orders.Enums;
 using Sales.Domain.Orders.Events;
 using Xunit;
 

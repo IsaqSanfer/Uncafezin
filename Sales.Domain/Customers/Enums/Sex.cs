@@ -1,4 +1,4 @@
-﻿namespace Sales.Domain.Common.Enums;
+﻿namespace Sales.Domain.Customers.Enums;
 
 public enum Sex
 {
