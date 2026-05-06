@@ -3,7 +3,7 @@ using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Common.Validation;
 using System.Text.RegularExpressions;
 
-namespace Sales.Domain.ValueObjects;
+namespace Sales.Domain.Orders.ValueObjects;
 
 public class ShippingAddress : ValueObject
 {
