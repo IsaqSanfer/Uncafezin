@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Sales.Domain.Common.Exceptions;
-using Sales.Domain.ValueObjects;
+using Sales.Domain.Orders.ValueObjects;
 using Xunit;
 
-namespace Sales.Domain.Tests.ValueObjects;
+namespace Sales.Domain.Tests.Orders.ValueObjects;
 
 public class ShippingAddressTests
 {

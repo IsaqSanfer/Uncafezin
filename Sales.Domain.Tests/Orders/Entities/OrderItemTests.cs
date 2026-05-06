@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using Sales.Domain.Common.Base;
 using Sales.Domain.Common.Exceptions;
-using Sales.Domain.Entities;
+using Sales.Domain.Orders.Entities;
 using Xunit;
 
-namespace Sales.Domain.Tests.Entities;
+namespace Sales.Domain.Tests.Orders.Entities;
 
 public class OrderItemTests
 {
