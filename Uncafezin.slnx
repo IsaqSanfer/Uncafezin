@@ -1,6 +1,10 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="Sales.API/Sales.API.csproj" Id="ac46be38-2039-49e6-90b8-f9523797272e" />
+    <Project Path="Sales.Application/Sales.Application.csproj" Id="a4a8dcd4-2eab-46cf-a9f5-04bb719ed90c" />
     <Project Path="Sales.Domain/Sales.Domain.csproj" />
+    <Project Path="Sales.Infrastructure/Sales.Infrastructure.csproj" Id="e4d70827-4f18-418f-856d-b798ceddbb29" />
+    <Project Path="Sales.WebApp/Sales.WebApp.csproj" Id="4d880358-6478-4f8e-83ef-64be88f2d3dd" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="Sales.Domain.Tests/Sales.Domain.Tests.csproj" />
