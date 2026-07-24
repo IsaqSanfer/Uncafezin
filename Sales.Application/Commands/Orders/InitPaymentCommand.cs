@@ -1,6 +1,6 @@
 ﻿using Sales.Domain.Orders.Enums;
 
-namespace Sales.Infrastructure.Commands.Orders;
+namespace Sales.Application.Commands.Orders;
 
 public sealed class InitPaymentCommand
 {
