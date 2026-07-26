@@ -5,11 +5,11 @@ namespace Sales.Application.Commands.Orders;
 public sealed class UpdateShippingAddressCommand
 {
     public Guid OrderId { get; }
-    public ShippingAddress ShippingAddress { get; }
+    public ShippingAddress NewShippingAddress { get; }
 
     public UpdateShippingAddressCommand(Guid orderId, ShippingAddress newShippingAddress)
     {
         OrderId = orderId;
-        ShippingAddress = newShippingAddress;
+        NewShippingAddress = newShippingAddress;
     }
 }
