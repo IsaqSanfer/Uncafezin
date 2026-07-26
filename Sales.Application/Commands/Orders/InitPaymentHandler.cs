@@ -11,7 +11,7 @@ public sealed class InitPaymentHandler
         _orderRepository = orderRepository;
     }
 
-    public async Task<InitPaymentResultDTO> HandleAsync(InitPaymentCommand command, CancellationToken cancellationToken)
+    public async Task<InitPaymentResultDTO> HandleAsync(InitPaymentCommand command, CancellationToken cancellationToken = default)
     {
         // Procurando o pedido pelo ID fornecido no comando
         var order = await _orderRepository.GetByIdAsync(command.OrderId, cancellationToken);
