@@ -18,8 +18,8 @@ public sealed class CancelReason: ValueObject
         { "Outro", "Motivo não especificado" }
     };
 
-    // Construtor privado para garantir que apenas códigos pré-definidos sejam usados
-    private CancelReason(string code)
+    // Construtor público para permitir a criação de instâncias com códigos pré-definidos
+    public CancelReason(string code)
     {
         if (string.IsNullOrWhiteSpace(code))
             throw new DomainException("O código do motivo de cancelamento é obrigatório.");
