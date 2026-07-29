@@ -1,4 +1,4 @@
-﻿using Sales.Domain.Catalog.Entities;
+﻿using Sales.Domain.Catalog;
 
 namespace Sales.Application.Abstractions.Persistence;
 

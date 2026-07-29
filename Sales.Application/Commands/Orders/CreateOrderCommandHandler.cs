@@ -1,5 +1,5 @@
 ﻿using Sales.Application.Abstractions.Persistence;
-using Sales.Domain.Orders.Entities;
+using Sales.Domain.Orders;
 
 namespace Sales.Application.Commands.Orders;
 
