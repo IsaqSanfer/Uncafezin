@@ -1,35 +1,32 @@
 ﻿using Sales.Application.Abstractions.Persistence;
 using Sales.Domain.Common.Exceptions;
-using Sales.Domain.Orders.ValueObjects;
 
-namespace Sales.Application.Commands.Orders;
+namespace Sales.Application.Commands.OrdersCommands;
 
-public sealed class CancelOrderHandler
+public sealed class MarkOrderAsDeliveredHandler
 {
     private readonly IOrderRepository _orderRepository;
 
-    public CancelOrderHandler(IOrderRepository orderRepository)
+    public MarkOrderAsDeliveredHandler(IOrderRepository orderRepository)
     {
         _orderRepository = orderRepository;
     }
 
-    public async Task<CancelOrderResultDTO> HandleAsync(CancelOrderCommand command, CancellationToken cancellationToken = default)
+    public async Task<MarkOrderAsDeliveredResultDTO> HandleAsync(MarkOrderAsDeliveredCommand command, CancellationToken cancellationToken = default)
     {
         var order = await _orderRepository.GetByIdAsync(command.OrderId, cancellationToken);
 
         if (order == null)
             throw new DomainException("Order not found.");
 
-        var reason = new CancelReason(command.ReasonCode);
-
-        order.CancelOrder(reason);
+        order.MarkAsDelivered();
 
         await _orderRepository.UpdateAsync(order, cancellationToken);
 
-        return new CancelOrderResultDTO
+        return new MarkOrderAsDeliveredResultDTO
         {
             OrderId = order.Id,
-            ReasonCode = order.OrderStatus.ToString()
+            OrderStatus = order.OrderStatus.ToString()
         };
     }
 }

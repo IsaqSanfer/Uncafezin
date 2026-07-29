@@ -1,6 +1,6 @@
 ﻿using Sales.Application.Abstractions.Persistence;
 
-namespace Sales.Application.Commands.Orders;
+namespace Sales.Application.Commands.OrdersCommands;
 
 public sealed class RemoveOrderItemCommandHandler
 {

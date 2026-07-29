@@ -1,6 +1,6 @@
 ﻿using Sales.Domain.Orders.ValueObjects;
 
-namespace Sales.Application.Commands.Orders;
+namespace Sales.Application.Commands.OrdersCommands;
 
 public sealed class CreateOrderCommand
 {
