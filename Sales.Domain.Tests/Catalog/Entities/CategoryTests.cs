@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Sales.Domain.Catalog.Entities;
+using Sales.Domain.Catalog;
 using Sales.Domain.Common.Exceptions;
 using Xunit;
 

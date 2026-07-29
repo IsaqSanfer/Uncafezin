@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Sales.Domain.Common.Exceptions;
-using Sales.Domain.Customers.Entities;
+using Sales.Domain.Customers;
 using Xunit;
 
 namespace Sales.Domain.Tests.Customers.Entities;
