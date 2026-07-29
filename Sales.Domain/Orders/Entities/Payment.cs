@@ -4,7 +4,7 @@ using Sales.Domain.Common.Validation;
 using Sales.Domain.Orders.Enums;
 using Sales.Domain.Orders.Events;
 
-namespace Sales.Domain.Orders.Entities;
+namespace Sales.Domain.Orders;
 
 public sealed class Payment : Entity
 {

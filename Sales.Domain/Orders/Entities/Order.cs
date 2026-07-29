@@ -5,7 +5,7 @@ using Sales.Domain.Orders.Enums;
 using Sales.Domain.Orders.Events;
 using Sales.Domain.Orders.ValueObjects;
 
-namespace Sales.Domain.Orders.Entities;
+namespace Sales.Domain.Orders;
 
 public sealed class Order : AggregateRoot
 {

@@ -5,7 +5,7 @@ using Sales.Domain.Customers.Enums;
 using Sales.Domain.Customers.Events;
 using Sales.Domain.Customers.ValueObjects;
 
-namespace Sales.Domain.Customers.Entities;
+namespace Sales.Domain.Customers;
 
 public sealed class Customer : AggregateRoot
 {

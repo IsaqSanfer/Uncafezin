@@ -3,7 +3,7 @@ using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Common.Validation;
 using System.Text.RegularExpressions;
 
-namespace Sales.Domain.Customers.Entities;
+namespace Sales.Domain.Customers;
 
 public sealed class Address : Entity
 {

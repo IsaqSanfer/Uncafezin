@@ -2,7 +2,7 @@
 using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Common.Validation;
 
-namespace Sales.Domain.Orders.Entities;
+namespace Sales.Domain.Orders;
 
 public sealed class OrderItem : Entity
 {

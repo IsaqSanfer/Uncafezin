@@ -3,7 +3,7 @@ using Sales.Domain.Common.Base;
 using Sales.Domain.Common.Exceptions;
 using Sales.Domain.Common.Validation;
 
-namespace Sales.Domain.Catalog.Entities;
+namespace Sales.Domain.Catalog;
 
 public sealed class Category : AggregateRoot
 {
