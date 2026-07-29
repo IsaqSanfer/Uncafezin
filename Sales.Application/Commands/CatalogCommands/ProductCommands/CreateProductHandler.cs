@@ -2,7 +2,7 @@
 using Sales.Domain.Catalog;
 using Sales.Domain.Catalog.ValueObjects;
 using Sales.Domain.Common.Exceptions;
-
+using Sales.Domain.Common.Validation;
 namespace Sales.Application.Commands.CatalogCommands.ProductCommands;
 
 public sealed class CreateProductHandler
