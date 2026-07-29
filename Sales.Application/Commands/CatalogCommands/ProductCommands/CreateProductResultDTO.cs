@@ -1,4 +1,4 @@
-﻿namespace Sales.Application.Commands.Catalog;
+﻿namespace Sales.Application.Commands.CatalogCommands.ProductCommands;
 
 public sealed class CreateProductResultDTO
 {
