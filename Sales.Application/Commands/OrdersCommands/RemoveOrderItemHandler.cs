@@ -2,11 +2,11 @@
 
 namespace Sales.Application.Commands.OrdersCommands;
 
-public sealed class RemoveOrderItemCommandHandler
+public sealed class RemoveOrderItemHandler
 {
     private readonly IOrderRepository _orderRepository;
 
-    public RemoveOrderItemCommandHandler(IOrderRepository orderRepository)
+    public RemoveOrderItemHandler(IOrderRepository orderRepository)
     {
         _orderRepository = orderRepository;
     }

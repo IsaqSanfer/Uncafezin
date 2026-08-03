@@ -2,11 +2,11 @@
 
 namespace Sales.Application.Commands.OrdersCommands;
 
-public sealed class AddOrderItemCommandHandler
+public sealed class AddOrderItemHandler
 {
     private readonly IOrderRepository _orderRepository;
 
-    public AddOrderItemCommandHandler(IOrderRepository orderRepository)
+    public AddOrderItemHandler(IOrderRepository orderRepository)
     {
         _orderRepository = orderRepository;
     }
