@@ -9,16 +9,18 @@ public class ShippingAddress : ValueObject
 {
     public string PostalCode { get; private set; }
     public string Street { get; private set; }
+    public string Number { get; private set; }
     public string Complement { get; private set; }
     public string District { get; private set; }
     public string State { get; private set; }
     public string City { get; private set; }
     public string Country { get; private set; }
 
-    private ShippingAddress(string postalCode, string street, string complement, string district, string state, string city, string country)
+    private ShippingAddress(string postalCode, string street, string number, string complement, string district, string state, string city, string country)
     {
         Guard.AgainstNullOrWhiteSpace(postalCode, nameof(PostalCode));
         Guard.AgainstNullOrWhiteSpace(street, nameof(Street));
+        Guard.AgainstNullOrWhiteSpace(number, nameof(Number));
         //Guard.AgainstNullOrWhiteSpace(complement, nameof(Complement));
         Guard.AgainstNullOrWhiteSpace(district, nameof(District));
         Guard.AgainstNullOrWhiteSpace(state, nameof(State));
@@ -31,6 +33,7 @@ public class ShippingAddress : ValueObject
 
         PostalCode = postalCode;
         Street = street;
+        Number = number;
         Complement = complement ?? string.Empty;
         District = district;
         State = state;
@@ -38,15 +41,16 @@ public class ShippingAddress : ValueObject
         Country = country;
     }
 
-    public static ShippingAddress Create(string postalCode, string street, string complement, string district, string state, string city, string country)
+    public static ShippingAddress Create(string postalCode, string street, string number, string complement, string district, string state, string city, string country)
     {
-        return new ShippingAddress(postalCode, street, complement, district, state, city, country);
+        return new ShippingAddress(postalCode, street, number, complement, district, state, city, country);
     }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return PostalCode;
         yield return Street;
+        yield return Number;
         yield return Complement ?? string.Empty;
         yield return District;
         yield return State;
@@ -56,6 +60,6 @@ public class ShippingAddress : ValueObject
 
     public string FullAddress()
     {
-        return $"{Street}, {Complement} - {District}, {City}/{State}, {Country} - CEP: {PostalCode}";
+        return $"{Street}, {Number}, {Complement} - {District}, {City}/{State}, {Country} - CEP: {PostalCode}";
     }
 }

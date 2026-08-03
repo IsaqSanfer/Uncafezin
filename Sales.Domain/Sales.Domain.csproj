@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Orders\Integration\Customers\ShippingAddressSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Common\Enums\" />
   </ItemGroup>
 
