@@ -14,7 +14,7 @@ public class OrderTests
     {
         // Arrange
         var clientId = Guid.NewGuid();
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
 
         // Act
         var order = Order.Create(clientId, address);
@@ -33,7 +33,7 @@ public class OrderTests
     public void Items_ShouldReturnEmpty_WhenNoItemsAdded()
     {
         // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
         var order = Order.Create(Guid.NewGuid(), address);
 
         // Act
@@ -47,7 +47,7 @@ public class OrderTests
     public void AddItem_ShouldAddNewItemToOrder()
     {
         // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
         var order = Order.Create(Guid.NewGuid(), address);
         var productId = Guid.NewGuid();
         var productName = "Produto Teste";
@@ -70,7 +70,7 @@ public class OrderTests
     public void AddItem_ShouldIncreaseQuantity_WhenProductAlreadyExists()
     {
         // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
         var order = Order.Create(Guid.NewGuid(), address);
         var productId = Guid.NewGuid();
         var productName = "Produto Teste";
@@ -91,7 +91,7 @@ public class OrderTests
     public void RemoveItem_ShouldRemoveCorrectItem_WhenMultipleItemsExist()
     {
         // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
         var order = Order.Create(Guid.NewGuid(), address);
         var productId1 = Guid.NewGuid();
         var productId2 = Guid.NewGuid();
@@ -110,7 +110,7 @@ public class OrderTests
     public void RemoveItem_ShouldThrowDomainException_WhenRemovingLastItem()
     {
         // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
         var order = Order.Create(Guid.NewGuid(), address);
         var productId = Guid.NewGuid();
         order.AddItem(productId, "Produto Teste", 10.5m, 2);
@@ -129,8 +129,8 @@ public class OrderTests
     public void UpdateShippingAddress_ShouldUpdate_WhenOrderIsPendingAndAddressIsValid()
     {
         // Arrange
-        var address1 = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
-        var address2 = ShippingAddress.Create("54321-000", "Rua B", "Casa", "Bairro", "RJ", "Rio de Janeiro", "Brasil");
+        var address1 = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address2 = ShippingAddress.Create("54321-000", "Rua B",  "3", "Casa", "Bairro", "RJ", "Rio de Janeiro", "Brasil");
         var order = Order.Create(Guid.NewGuid(), address1);
 
         // Act
@@ -144,7 +144,7 @@ public class OrderTests
     public void UpdateShippingAddress_ShouldThrow_WhenAddressIsNull()
     {
         // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
         var order = Order.Create(Guid.NewGuid(), address);
 
         // Act
@@ -159,8 +159,8 @@ public class OrderTests
     public void UpdateShippingAddress_ShouldThrow_WhenOrderIsNotPending()
     {
         // Arrange
-        var address1 = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
-        var address2 = ShippingAddress.Create("54321-000", "Rua B", "Casa", "Bairro", "RJ", "Rio de Janeiro", "Brasil");
+        var address1 = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address2 = ShippingAddress.Create("54321-000", "Rua B", "3", "Casa", "Bairro", "RJ", "Rio de Janeiro", "Brasil");
         var order = Order.Create(Guid.NewGuid(), address1);
         // Simula mudança de status (reflexão, pois não há setter público)
         var statusProp = typeof(Order).GetProperty("OrderStatus");
@@ -180,7 +180,7 @@ public class OrderTests
     public void Payments_ShouldReturnEmpty_WhenNoPaymentsAdded()
     {
         // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
         var order = Order.Create(Guid.NewGuid(), address);
 
         // Act
@@ -196,7 +196,7 @@ public class OrderTests
     public void MarkAsShipped_ShouldSetStatusAndRaiseEvent_WhenOrderIsProcessing()
     {
         // Arrange
-        var address = ShippingAddress.Create("12345-678", "Rua A", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
+        var address = ShippingAddress.Create("12345-678", "Rua A", "3", "Apto 1", "Centro", "SP", "São Paulo", "Brasil");
         var order = Order.Create(Guid.NewGuid(), address);
         var statusProp = typeof(Order).GetProperty("OrderStatus");
         statusProp!.SetValue(order, OrderStatus.Processing);
