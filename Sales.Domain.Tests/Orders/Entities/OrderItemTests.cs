@@ -117,34 +117,6 @@ public class OrderItemTests
         act.Should().Throw<DomainException>().WithMessage("A quantidade deve ser maior que zero.");
     }
 
-    [Fact(DisplayName = "Deve atualizar preço corretamente quando o valor for válido")]
-    public void UpdateUnitPrice_ShouldUpdateUnitPriceAndTotalPrice()
-    {
-        // Arrange
-        var item = CreateValidOrderItem(price: 100m, qty: 3);
-
-        // Act
-        item.UpdateUnitPrice(150m);
-
-        // Assert
-        item.UnitPrice.Should().Be(150m);
-        item.TotalPrice.Should().Be(item.UnitPrice * item.Quantity);
-        item.UpdateDate.Should().NotBeNull();
-    }
-
-    [Fact(DisplayName = "Não deve atualizar preço com valor inválido")]
-    public void UpdateUnitPrice_ShouldThrowDomainException_WhenPriceIsInvalid()
-    {
-        // Arrange
-        var item = CreateValidOrderItem();
-
-        // Act
-        Action act = () => item.UpdateUnitPrice(0);
-
-        // Assert
-        act.Should().Throw<DomainException>().WithMessage("O preço unitário deve ser maior que zero.");
-    }
-
     [Fact(DisplayName = "Dois itens com o mesmo ID devem ser considerados iguais")]
     public void TwoItemsWithSameId_ShouldBeEqual()
     {
